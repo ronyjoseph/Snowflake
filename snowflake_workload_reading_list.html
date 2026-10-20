@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A curated guide to Snowflake documentation for semi-structured, unstructured, temporal, graph, machine learning, and generative AI workloads.">
+  <meta name="theme-color" content="#183d34">
+  <title>Snowflake Workload Reading List</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --pine: #183d34;
+      --pine-deep: #102d27;
+      --moss: #547465;
+      --mint: #dce9df;
+      --paper: #f4f3ec;
+      --white: #fffefa;
+      --ink: #1e302a;
+      --muted: #66736c;
+      --line: #d9ded5;
+      --coral: #c45438;
+      --gold: #d6ae5d;
+      --mono: "DM Mono", "SFMono-Regular", Consolas, monospace;
+      --sans: "DM Sans", "Avenir Next", sans-serif;
+      --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+
+    a:focus-visible,
+    input:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--coral);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: absolute;
+      z-index: 5;
+      top: 8px;
+      left: 8px;
+      padding: 8px 12px;
+      transform: translateY(-150%);
+      background: var(--white);
+      color: var(--pine-deep);
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background-color: var(--pine);
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 34px 34px;
+      color: #f5f5e9;
+    }
+
+    .hero-inner {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 54px 0 48px;
+    }
+
+    .eyebrow,
+    .section-kicker,
+    .rail-label,
+    .resource-type,
+    .result-count {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #c6d8cb;
+    }
+
+    .eyebrow-mark {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 18px 0 12px;
+      font-family: var(--serif);
+      font-size: 48px;
+      font-weight: 500;
+      line-height: 1.08;
+    }
+
+    .hero-copy {
+      max-width: 670px;
+      margin: 0;
+      color: #d2dfd5;
+      font-size: 16px;
+    }
+
+    .hero-foot {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 25px;
+      color: #c6d8cb;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .hero-foot span + span::before {
+      content: "/";
+      margin-right: 10px;
+      color: var(--gold);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 58px;
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 42px 0 76px;
+    }
+
+    .rail {
+      position: sticky;
+      top: 24px;
+      align-self: start;
+    }
+
+    .rail-label { margin: 0 0 12px; color: var(--muted); }
+
+    .topic-nav {
+      display: grid;
+      gap: 3px;
+      border-left: 1px solid var(--line);
+    }
+
+    .topic-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 39px;
+      padding: 7px 10px 7px 13px;
+      border-left: 2px solid transparent;
+      margin-left: -1px;
+      color: #42574c;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .topic-nav a:hover,
+    .topic-nav a:focus-visible {
+      border-left-color: var(--coral);
+      color: var(--pine-deep);
+    }
+
+    .nav-number {
+      color: #839187;
+      font-family: var(--mono);
+      font-size: 10px;
+    }
+
+    .rail-note {
+      margin: 27px 0 0;
+      padding-top: 15px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .content-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .content-head h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 27px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: min(320px, 48%);
+      padding: 0 0 6px;
+      border-bottom: 1px solid #a9b4aa;
+    }
+
+    .search-icon {
+      width: 15px;
+      height: 15px;
+      flex: 0 0 auto;
+      border: 1.5px solid var(--moss);
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .search-icon::after {
+      position: absolute;
+      right: -5px;
+      bottom: -3px;
+      width: 6px;
+      height: 1.5px;
+      background: var(--moss);
+      content: "";
+      transform: rotate(45deg);
+    }
+
+    .search-wrap input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+    }
+
+    .search-wrap input::placeholder { color: #7b887f; }
+    .search-wrap input:focus { outline: 0; }
+
+    .result-count {
+      min-height: 19px;
+      margin: 10px 0 2px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .topic {
+      padding: 27px 0 29px;
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: 20px;
+    }
+
+    .topic-heading {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 13px;
+      align-items: start;
+      margin-bottom: 13px;
+    }
+
+    .topic-number {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border: 1px solid #b8c6b9;
+      border-radius: 50%;
+      color: var(--pine);
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    .topic-title {
+      margin: 0 0 2px;
+      color: var(--pine-deep);
+      font-family: var(--serif);
+      font-size: 23px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .topic-intro {
+      max-width: 720px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .resource-list { margin-left: 55px; }
+
+    .resource {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px 18px;
+      align-items: start;
+      padding: 13px 0;
+      border-top: 1px solid rgba(217, 222, 213, .8);
+    }
+
+    .resource[hidden],
+    .topic[hidden] { display: none; }
+
+    .resource-main { min-width: 0; }
+
+    .resource-type {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--moss);
+      font-size: 9px;
+    }
+
+    .resource-title {
+      display: inline;
+      color: var(--pine-deep);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration-color: #a8baab;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .resource-title:hover {
+      color: var(--coral);
+      text-decoration-color: currentColor;
+    }
+
+    .resource-description {
+      margin: 3px 0 0;
+      color: #58675e;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .read-link {
+      padding: 2px 0;
+      color: var(--coral);
+      font-family: var(--mono);
+      font-size: 10px;
+      text-decoration: none;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .read-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    .empty-state {
+      display: none;
+      padding: 34px 0;
+      color: var(--muted);
+    }
+
+    .empty-state.visible { display: block; }
+
+    .graph-note {
+      margin: 10px 0 0 55px;
+      padding: 12px 15px;
+      border-left: 3px solid var(--gold);
+      background: rgba(220, 233, 223, .55);
+      color: #495c50;
+      font-size: 12px;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 19px 0 25px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 760px) {
+      .hero-inner,
+      .layout,
+      footer { width: min(100% - 32px, 620px); }
+
+      .hero-inner { padding: 38px 0 34px; }
+      h1 { font-size: 38px; }
+      .hero-copy { font-size: 14px; }
+
+      .layout {
+        display: block;
+        padding-top: 24px;
+      }
+
+      .rail { position: static; margin-bottom: 29px; }
+      .rail-label { margin-bottom: 9px; }
+      .topic-nav {
+        display: flex;
+        gap: 5px;
+        overflow-x: auto;
+        padding: 0 0 5px;
+        border: 0;
+        scrollbar-width: thin;
+      }
+
+      .topic-nav a {
+        min-height: 34px;
+        flex: 0 0 auto;
+        padding: 5px 9px;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        margin: 0;
+        background: rgba(255,254,250,.65);
+        font-size: 12px;
+      }
+
+      .topic-nav a:hover,
+      .topic-nav a:focus-visible { border-color: var(--coral); }
+      .nav-number { display: none; }
+      .rail-note { display: none; }
+      .content-head { align-items: start; flex-direction: column; gap: 12px; }
+      .search-wrap { width: 100%; }
+      .resource-list,
+      .graph-note { margin-left: 0; }
+      .topic-heading { grid-template-columns: 34px minmax(0, 1fr); gap: 10px; }
+      .topic-number { width: 30px; height: 30px; }
+      .topic-title { font-size: 21px; }
+      .topic { padding: 23px 0; }
+      footer { flex-direction: column; gap: 4px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+
+    @media print {
+      body { background: white; }
+      .hero { background: var(--pine) !important; print-color-adjust: exact; }
+      .layout { display: block; width: 100%; padding-top: 20px; }
+      .rail, .search-wrap, .result-count, .read-link { display: none; }
+      .content-head { border: 0; }
+      .topic { break-inside: avoid; }
+      .resource[hidden], .topic[hidden] { display: block !important; }
+      .resource-title::after { content: " (" attr(href) ")"; color: #58675e; font-size: 9px; font-weight: 400; overflow-wrap: anywhere; }
+      footer { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#readings">Skip to readings</a>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span> Snowflake documentation / Research guide</div>
+      <h1>Snowflake workload reading list</h1>
+      <p class="hero-copy">A curated set of official guides for working across structured, semi-structured, unstructured, temporal, graph-shaped, analytical and OLAP, machine learning, and generative AI workloads.</p>
+      <div class="hero-foot"><span>7 workload areas</span><span>Official Snowflake sources</span><span>Updated October 2026</span></div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="rail" aria-label="Reading guide navigation">
+      <p class="rail-label">Jump to a workload</p>
+      <nav class="topic-nav">
+        <a href="#semi"><span class="nav-number">01</span> Semi-structured</a>
+        <a href="#unstructured"><span class="nav-number">02</span> Unstructured</a>
+        <a href="#temporal"><span class="nav-number">03</span> Temporal</a>
+        <a href="#graph"><span class="nav-number">04</span> Graph-shaped data</a>
+        <a href="#analytical-olap"><span class="nav-number">05</span> Analytical &amp; OLAP SQL</a>
+        <a href="#ml"><span class="nav-number">06</span> Machine learning</a>
+        <a href="#generative-ai"><span class="nav-number">07</span> Generative AI</a>
+      </nav>
+      <p class="rail-note">Documentation links open in a new tab. Use the search field to filter titles and descriptions.</p>
+    </aside>
+
+    <main id="readings">
+      <div class="content-head">
+        <h2>Explore the documentation</h2>
+        <label class="search-wrap">
+          <span class="search-icon" aria-hidden="true"></span>
+          <input id="reading-search" type="search" placeholder="Filter readings..." autocomplete="off" aria-label="Filter readings by title or description">
+        </label>
+      </div>
+      <p class="result-count" id="result-count" aria-live="polite">Showing 27 readings</p>
+
+      <section class="topic" id="semi" aria-labelledby="semi-title">
+        <div class="topic-heading">
+          <span class="topic-number" aria-hidden="true">01</span>
+          <div>
+            <h2 class="topic-title" id="semi-title">Semi-structured data</h2>
+            <p class="topic-intro">Load flexible, nested formats and query their values with Snowflake's semi-structured types and SQL operators.</p>
+          </div>
+        </div>
+        <div class="resource-list">
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Concepts and loading</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/semistructured-intro" target="_blank" rel="noopener noreferrer">Introduction to loading semi-structured data</a>
+              <p class="resource-description">Formats, schema flexibility, and the VARIANT, ARRAY, and OBJECT types.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/semistructured-intro" target="_blank" rel="noopener noreferrer" aria-label="Read Introduction to loading semi-structured data">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">SQL techniques</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/querying-semistructured" target="_blank" rel="noopener noreferrer">Querying semi-structured data</a>
+              <p class="resource-description">Traverse nested values, cast VARIANT data, and use FLATTEN on arrays and objects.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/querying-semistructured" target="_blank" rel="noopener noreferrer" aria-label="Read Querying semi-structured data">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Hands-on tutorial</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/tutorials/json-basics-tutorial" target="_blank" rel="noopener noreferrer">JSON basics for Snowflake</a>
+              <p class="resource-description">A practical first exercise for loading and querying JSON.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/tutorials/json-basics-tutorial" target="_blank" rel="noopener noreferrer" aria-label="Read JSON basics for Snowflake">Read guide</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="topic" id="unstructured" aria-labelledby="unstructured-title">
+        <div class="topic-heading">
+          <span class="topic-number" aria-hidden="true">02</span>
+          <div>
+            <h2 class="topic-title" id="unstructured-title">Unstructured data</h2>
+            <p class="topic-intro">Work with files such as PDFs, images, audio, and documents alongside governed Snowflake data.</p>
+          </div>
+        </div>
+        <div class="resource-list">
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Concepts and access</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/unstructured-intro" target="_blank" rel="noopener noreferrer">Introduction to unstructured data</a>
+              <p class="resource-description">Stages, directory tables, file URLs, and ways to access and process staged files.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/unstructured-intro" target="_blank" rel="noopener noreferrer" aria-label="Read Introduction to unstructured data">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Processing examples</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/unstructured-data-java" target="_blank" rel="noopener noreferrer">Process unstructured data with UDF and procedure handlers</a>
+              <p class="resource-description">Examples for reading and extracting content from staged PDFs and CSV files.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/unstructured-data-java" target="_blank" rel="noopener noreferrer" aria-label="Read Process unstructured data with UDF and procedure handlers">Read guide</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="topic" id="temporal" aria-labelledby="temporal-title">
+        <div class="topic-heading">
+          <span class="topic-number" aria-hidden="true">03</span>
+          <div>
+            <h2 class="topic-title" id="temporal-title">Temporal data</h2>
+            <p class="topic-intro">Two useful starting points: analyzing timestamped events and querying historical versions of tables.</p>
+          </div>
+        </div>
+        <div class="resource-list">
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Time-series analytics</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/querying-time-series-data" target="_blank" rel="noopener noreferrer">Analyzing time-series data</a>
+              <p class="resource-description">Time bucketing, rolling windows, ASOF JOIN, gap filling, and anomaly detection examples.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/querying-time-series-data" target="_blank" rel="noopener noreferrer" aria-label="Read Analyzing time-series data">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Historical data recovery</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/data-time-travel" target="_blank" rel="noopener noreferrer">Understanding and using Time Travel</a>
+              <p class="resource-description">Query, clone, or restore past table states within the configured retention period.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/data-time-travel" target="_blank" rel="noopener noreferrer" aria-label="Read Understanding and using Time Travel">Read guide</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="topic" id="graph" aria-labelledby="graph-title">
+        <div class="topic-heading">
+          <span class="topic-number" aria-hidden="true">04</span>
+          <div>
+            <h2 class="topic-title" id="graph-title">Graph-shaped data</h2>
+            <p class="topic-intro">Learn Snowflake's SQL approaches for traversing parent-child relationships and other hierarchical structures.</p>
+          </div>
+        </div>
+        <div class="resource-list">
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Start here</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/queries-hierarchical" target="_blank" rel="noopener noreferrer">Querying hierarchical data</a>
+              <p class="resource-description">An overview of joins, recursive CTEs, and CONNECT BY for variable-depth hierarchies.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/queries-hierarchical" target="_blank" rel="noopener noreferrer" aria-label="Read Querying hierarchical data">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Recursive SQL</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/queries-cte" target="_blank" rel="noopener noreferrer">Working with CTEs</a>
+              <p class="resource-description">Recursive query patterns for traversing management trees and parts explosions.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/queries-cte" target="_blank" rel="noopener noreferrer" aria-label="Read Working with CTEs">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">SQL reference</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/sql-reference/constructs/connect-by" target="_blank" rel="noopener noreferrer">CONNECT BY</a>
+              <p class="resource-description">Syntax reference for iterating through self-referencing hierarchical data.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/sql-reference/constructs/connect-by" target="_blank" rel="noopener noreferrer" aria-label="Read CONNECT BY reference">Read guide</a>
+          </article>
+        </div>
+        <p class="graph-note">Snowflake's SQL documentation describes hierarchy traversal with recursive CTEs and CONNECT BY. These are useful for graph-shaped relationships; they are not a general property-graph query language.</p>
+      </section>
+
+      <section class="topic" id="analytical-olap" aria-labelledby="analytical-olap-title">
+        <div class="topic-heading">
+          <span class="topic-number" aria-hidden="true">05</span>
+          <div>
+            <h2 class="topic-title" id="analytical-olap-title">Analytical &amp; OLAP SQL</h2>
+            <p class="topic-intro">Build reports and advanced analysis with window functions, post-window filtering, multidimensional aggregates, and pivoted results.</p>
+          </div>
+        </div>
+        <div class="resource-list">
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Concepts and examples</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/functions-window-using" target="_blank" rel="noopener noreferrer">Analyzing data with window functions</a>
+              <p class="resource-description">Understand partitions, window frames, ranking, running totals, and moving averages.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/functions-window-using" target="_blank" rel="noopener noreferrer" aria-label="Read Analyzing data with window functions">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Function reference</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/sql-reference/functions-window" target="_blank" rel="noopener noreferrer">Window functions</a>
+              <p class="resource-description">Browse ranking, navigation, distribution, and other functions that operate over related rows.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/sql-reference/functions-window" target="_blank" rel="noopener noreferrer" aria-label="Read Window functions reference">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Filter analytic results</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/sql-reference/constructs/qualify" target="_blank" rel="noopener noreferrer">QUALIFY</a>
+              <p class="resource-description">Filter after window functions are calculated, for example to keep the top row per group.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/sql-reference/constructs/qualify" target="_blank" rel="noopener noreferrer" aria-label="Read QUALIFY reference">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Aggregation reference</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/sql-reference/functions-aggregation" target="_blank" rel="noopener noreferrer">Aggregate functions</a>
+              <p class="resource-description">Explore standard, statistical, percentile, approximate, and specialized aggregate functions.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/sql-reference/functions-aggregation" target="_blank" rel="noopener noreferrer" aria-label="Read Aggregate functions reference">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Multidimensional aggregation</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/sql-reference/constructs/group-by-cube" target="_blank" rel="noopener noreferrer">GROUP BY CUBE</a>
+              <p class="resource-description">Generate aggregates for every combination of the selected dimensions.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/sql-reference/constructs/group-by-cube" target="_blank" rel="noopener noreferrer" aria-label="Read GROUP BY CUBE reference">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Hierarchical subtotals</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/sql-reference/constructs/group-by-rollup" target="_blank" rel="noopener noreferrer">GROUP BY ROLLUP</a>
+              <p class="resource-description">Produce subtotals along a hierarchy, such as city to state to grand total.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/sql-reference/constructs/group-by-rollup" target="_blank" rel="noopener noreferrer" aria-label="Read GROUP BY ROLLUP reference">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Custom subtotal sets</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/sql-reference/constructs/group-by-grouping-sets" target="_blank" rel="noopener noreferrer">GROUP BY GROUPING SETS</a>
+              <p class="resource-description">Specify exactly which grouping levels to return in a single aggregate query.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/sql-reference/constructs/group-by-grouping-sets" target="_blank" rel="noopener noreferrer" aria-label="Read GROUP BY GROUPING SETS reference">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Cross-tab reports</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/sql-reference/constructs/pivot" target="_blank" rel="noopener noreferrer">PIVOT</a>
+              <p class="resource-description">Turn distinct values from rows into output columns and aggregate the corresponding measures.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/sql-reference/constructs/pivot" target="_blank" rel="noopener noreferrer" aria-label="Read PIVOT reference">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Reshape reports</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/sql-reference/constructs/unpivot" target="_blank" rel="noopener noreferrer">UNPIVOT</a>
+              <p class="resource-description">Rotate columns back into rows to normalize wide, cross-tabulated data.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/sql-reference/constructs/unpivot" target="_blank" rel="noopener noreferrer" aria-label="Read UNPIVOT reference">Read guide</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="topic" id="ml" aria-labelledby="ml-title">
+        <div class="topic-heading">
+          <span class="topic-number" aria-hidden="true">06</span>
+          <div>
+            <h2 class="topic-title" id="ml-title">Machine learning</h2>
+            <p class="topic-intro">Explore built-in SQL analysis functions and the tools for developing and operationalizing custom models.</p>
+          </div>
+        </div>
+        <div class="resource-list">
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">End-to-end ML</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/developer-guide/snowflake-ml/overview" target="_blank" rel="noopener noreferrer">Snowflake ML overview</a>
+              <p class="resource-description">Feature engineering, training, model registry, inference, and monitoring.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/developer-guide/snowflake-ml/overview" target="_blank" rel="noopener noreferrer" aria-label="Read Snowflake ML overview">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Built-in analysis</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/guides-overview-ml-functions" target="_blank" rel="noopener noreferrer">ML Functions</a>
+              <p class="resource-description">Forecasting, anomaly detection, classification, and Top Insights without building a model from scratch.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/guides-overview-ml-functions" target="_blank" rel="noopener noreferrer" aria-label="Read ML Functions overview">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Time-series ML</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/ml-functions/forecasting" target="_blank" rel="noopener noreferrer">Time-series forecasting</a>
+              <p class="resource-description">Train a forecasting model and predict future metric values from historical data.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/ml-functions/forecasting" target="_blank" rel="noopener noreferrer" aria-label="Read Time-series forecasting">Read guide</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="topic" id="generative-ai" aria-labelledby="generative-ai-title">
+        <div class="topic-heading">
+          <span class="topic-number" aria-hidden="true">07</span>
+          <div>
+            <h2 class="topic-title" id="generative-ai-title">Generative AI</h2>
+            <p class="topic-intro">See how SQL AI functions, retrieval, natural-language analytics, and agents fit together.</p>
+          </div>
+        </div>
+        <div class="resource-list">
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Feature map</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/guides-overview-ai-features" target="_blank" rel="noopener noreferrer">Snowflake AI and ML overview</a>
+              <p class="resource-description">An overview of Snowflake Cortex and Snowflake ML capabilities.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/guides-overview-ai-features" target="_blank" rel="noopener noreferrer" aria-label="Read Snowflake AI and ML overview">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">AI in SQL</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/llm-functions" target="_blank" rel="noopener noreferrer">Cortex AI Functions</a>
+              <p class="resource-description">Use SQL functions for tasks such as completion, summarization, classification, and extraction.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/llm-functions" target="_blank" rel="noopener noreferrer" aria-label="Read Cortex AI Functions">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Search and RAG</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview" target="_blank" rel="noopener noreferrer">Cortex Search</a>
+              <p class="resource-description">Build hybrid keyword and semantic search over Snowflake data for retrieval-augmented generation.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview" target="_blank" rel="noopener noreferrer" aria-label="Read Cortex Search">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Natural language to SQL</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst" target="_blank" rel="noopener noreferrer">Cortex Analyst</a>
+              <p class="resource-description">Answer business questions about structured data using natural language and semantic views.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst" target="_blank" rel="noopener noreferrer" aria-label="Read Cortex Analyst">Read guide</a>
+          </article>
+          <article class="resource">
+            <div class="resource-main">
+              <span class="resource-type">Agentic workflows</span>
+              <a class="resource-title" href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents" target="_blank" rel="noopener noreferrer">Cortex Agents</a>
+              <p class="resource-description">Combine SQL analysis of structured data with retrieval from unstructured sources in governed workflows.</p>
+            </div>
+            <a class="read-link" href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents" target="_blank" rel="noopener noreferrer" aria-label="Read Cortex Agents">Read guide</a>
+          </article>
+        </div>
+      </section>
+
+      <p class="empty-state" id="empty-state">No readings match that search. Try another term.</p>
+    </main>
+  </div>
+
+  <footer>
+    <span>Snowflake workload reading list</span>
+    <span>Sources: docs.snowflake.com</span>
+  </footer>
+
+  <script>
+    const searchInput = document.getElementById("reading-search");
+    const countLabel = document.getElementById("result-count");
+    const emptyState = document.getElementById("empty-state");
+    const resources = [...document.querySelectorAll(".resource")];
+    const topics = [...document.querySelectorAll(".topic")];
+
+    function filterReadings() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      for (const resource of resources) {
+        const matches = resource.textContent.toLowerCase().includes(query);
+        resource.hidden = !matches;
+        if (matches) visibleCount += 1;
+      }
+
+      for (const topic of topics) {
+        topic.hidden = !topic.querySelector(".resource:not([hidden])");
+      }
+
+      countLabel.textContent = `Showing ${visibleCount} of ${resources.length} readings`;
+      emptyState.classList.toggle("visible", visibleCount === 0);
+    }
+
+    searchInput.addEventListener("input", filterReadings);
+  </script>
+</body>
+</html>
